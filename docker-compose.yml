@@ -10,10 +10,16 @@ services:
 
   db:
     container_name: "db"
-    build: database
     restart: always
-#    volumes:
-#      - "db_data:/var/lib/mysql"
+    env_file: .env
+    build:
+      context: database
+      args:
+        DB_PASS: ${DB_PASS}
+        DB_USER: ${DB_USER}
+        DB: ${DB}
+    volumes:
+      - db_data:/var/lib/mysql
 
 volumes:
   db_data: {}

@@ -1,10 +1,11 @@
-FROM alpine:latest
+FROM alpine:3.14
 
-RUN apk add --upgrade mysql mysql-client && rm -f /var/cache/apk/*
-
-ENV MYSQL_ROOT_PASSWORD db_pass
-ENV MYSQL_USER wordpress
-
+RUN apk -U upgrade && apk --update add mariadb mariadb-client
+COPY ./mariadb-server.cnf /etc/mysql/my.cnf
+COPY ./prepare_db.sh /prepare.sh
+ARG DB DB_USER DB_PASS
 
 EXPOSE 3306
-CMD ["mysqld", "--user=root"]
+
+RUN /bin/sh /prepare.sh
+CMD ["mysqld", "--user=mysql", "--datadir=/var/lib/mysql"]
