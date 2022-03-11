@@ -39,6 +39,18 @@ services:
     networks:
       - db_net
 
+  nginx:
+    container_name: "nginx"
+#    restart: always
+    env_file: .env
+    build:
+      context: nginx
+    volumes:
+      - ${CERT_PATH}:/etc/ssl/private/:ro
+    ports:
+      - "443:443"
+
+
 networks:
   db_net:
     driver: bridge
