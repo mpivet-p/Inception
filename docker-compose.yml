@@ -15,7 +15,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - db_net
+      - inception
 
   phpmyadmin:
     container_name: "pma"
@@ -26,7 +26,7 @@ services:
     ports:
       - "8042:80"
     networks:
-      - db_net
+      - inception
 
   wordpress:
     container_name: "wp"
@@ -34,10 +34,10 @@ services:
     env_file: .env
     build:
       context: wordpress
-    ports:
-      - "8043:80"
+#    ports:
+#      - "9000:9000"
     networks:
-      - db_net
+      - inception
 
   nginx:
     container_name: "nginx"
@@ -45,14 +45,17 @@ services:
     env_file: .env
     build:
       context: nginx
-    volumes:
-      - ${CERT_PATH}:/etc/ssl/private/:ro
+#    volumes:
+#      - ${CERT_PATH}:/etc/ssl/private/:ro
     ports:
       - "443:443"
+      - "80:80"
+    networks:
+      - inception
 
 
 networks:
-  db_net:
+  inception:
     driver: bridge
 
 volumes:
