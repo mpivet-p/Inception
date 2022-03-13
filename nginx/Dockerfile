@@ -1,22 +1,19 @@
 FROM debian:buster
 
-RUN apt update && apt install nginx -y
+RUN apt update\
+    && apt install nginx -y\
+    && rm -rf /var/lib/apt/lists/*
+
 #Dev
 RUN apt update && apt install vim -y
 
-
-#RUN rm -rf /etc/nginx/*
-#RUN rm -rf /var/www/html/*
 #RUN mkdir -p /etc/ssl/private
 
-WORKDIR /etc/nginx
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-#COPY ./conf/ .
-COPY ./conf/wordpress.conf ./conf.d/wordpress.conf
-RUN rm -rf modules-available\
-        modules-enabled\
-        sites-available\
-        sites-enabled\
+WORKDIR /etc/nginx
+RUN rm -rf sites*\
+        modules*\
         koi-utf\
         koi-win\
         win-utf\
@@ -24,11 +21,6 @@ RUN rm -rf modules-available\
         uwsgi_params\
         scgi_params\
         proxy_params
-RUN sed -e '/include \/etc\/nginx\/sites-enabled/d'\
-        -e '/include \/etc\/nginx\/modules-enabled/d'\
-        -e '/worker_processes/s/auto/1/'\
-        -i  nginx.conf
-#RUN mv ./mpivet-p.42.fr.crt ./mpivet-p.42.fr.key /etc/ssl/private/
-#RUN mv index.html /var/www/html/
+RUN sed '/worker_processes/s/auto/1/' -i  /etc/nginx/nginx.conf
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

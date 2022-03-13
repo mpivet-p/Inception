@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt update\
-    && apt install wget php-cli php-mysql php-gd php-xml php7.3-fpm -y\
+    && apt install wget mariadb-client php-cli php-mysql php-gd php-xml php7.3-fpm -y\
     && rm -rf /var/lib/apt/lists/*
 
 #Install wp-cli
@@ -14,12 +14,12 @@ RUN mkdir /run/php
 RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/pool.d/www.conf
 
 #Prepare for wp setup
-RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/
 COPY ./conf/install.sh /tmp/install.sh
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data /var/www/
 
 #Wordpress config
 USER www-data
-WORKDIR /var/www/html
+WORKDIR /var/www/
 
 ENTRYPOINT ["/bin/sh", "/tmp/install.sh"]

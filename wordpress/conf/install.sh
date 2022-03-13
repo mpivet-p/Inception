@@ -3,7 +3,7 @@
 #Exit if one command fails
 set -e
 
-if [ ! -f "/var/www/html/wp-config.php" ]; then
+if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
     wp core download
     wp config create\
         --dbhost=${DB_HOST}\
