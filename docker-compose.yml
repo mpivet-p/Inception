@@ -4,30 +4,30 @@ services:
 
   db:
     container_name: "db"
-    restart: always
+#    restart: always
     env_file: .env
     build:
       context: database
       args:
         DB_PASS: ${DB_PASS}
         DB_USER: ${DB_USER}
-        DB: ${DB}
+        DB_NAME: ${DB_NAME}
     volumes:
       - db_data:/var/lib/mysql
     networks:
       - inception
 
-  phpmyadmin:
-    container_name: "pma"
-    restart: always
-    env_file: .env
-    build:
-      context: phpmyadmin
-    networks:
-      - inception
+#  phpmyadmin:
+#    container_name: "pma"
+#    restart: always
+#    env_file: .env
+#    build:
+#      context: phpmyadmin
+#    networks:
+#      - inception
 
   wordpress:
-    container_name: "wp"
+    container_name: "wordpress"
 #    restart: always
     env_file: .env
     build:
@@ -43,8 +43,6 @@ services:
     env_file: .env
     build:
       context: nginx
-#    volumes:
-#      - wp_data:/var/www
     ports:
       - "443:443"
       - "80:80"
