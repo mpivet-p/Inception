@@ -15,11 +15,11 @@ RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/poo
 
 #Prepare for wp setup
 RUN mkdir -p /var/www/
-COPY ./conf/install.sh /tmp/install.sh
+COPY ./conf/install.sh /var/www/install.sh
 RUN chown -R www-data /var/www/
 
 #Wordpress config
 USER www-data
 WORKDIR /var/www/
 
-ENTRYPOINT ["/bin/sh", "/tmp/install.sh"]
+ENTRYPOINT ["/bin/sh", "/var/www/install.sh"]
