@@ -18,10 +18,8 @@ RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/poo
 #Prepare for wp setup
 RUN mkdir -p /var/www/html
 COPY ./conf/install.sh /var/www/html/install.sh
-RUN chown -R www-data /var/www/html
 RUN touch /var/log/php7.3-fpm.log
-RUN chown www-data:www-data /var/log/php7.3-fpm.log
-RUN chown www-data:www-data /run/php
+RUN chown -R www-data:www-data /var/www/html /var/log/php7.3-fpm.log /run/php
 
 #Wordpress config
 USER www-data
