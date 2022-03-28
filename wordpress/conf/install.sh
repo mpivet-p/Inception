@@ -1,11 +1,10 @@
 #!/bin/bash
 
-#Exit if one command fails
-set -e
-echo $DB_HOST $DB_NAME $DB_USER $DB_PASS $WP_URL $WP_TITLE $WP_ADMIN $WP_PASS $WP_MAIL
-
 export WP_CLI_CACHE_DIR=/var/www/html/.wp-cli/cache
-if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
+
+if [ ! -f "/var/www/html/wp-config.php" ]; then
+    # If wp-config is missing we remove all files before reinstalling
+    shopt -s extglob && rm -rfv !("install.sh") && shopt -u extglob
     wp core download --path="/var/www/html"
     wp config create\
         --dbhost=${DB_HOST}\
