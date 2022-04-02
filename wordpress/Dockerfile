@@ -19,10 +19,11 @@ RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9000/' -i /etc/php/7.3/fpm/poo
 RUN mkdir -p /var/www/html
 COPY ./conf/install.sh /var/www/html/install.sh
 RUN touch /var/log/php7.3-fpm.log
-RUN chown -R www-data:www-data /var/www/html /var/log/php7.3-fpm.log /run/php
+RUN chown -R www-data:www-data /var/www/html /run/php /var/log/php7.3-fpm.log
 
 #Wordpress config
 USER www-data
 WORKDIR /var/www/html
 
 ENTRYPOINT ["/bin/sh", "/var/www/html/install.sh"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

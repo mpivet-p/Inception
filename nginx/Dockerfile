@@ -12,6 +12,7 @@ RUN apt update && apt install vim -y
 WORKDIR /etc/nginx
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 RUN rm -rf sites*\
+        conf.d\
         modules*\
         koi-utf\
         koi-win\
@@ -21,4 +22,5 @@ RUN rm -rf sites*\
         scgi_params\
         proxy_params
 
-ENTRYPOINT ["nginx", "-g", "daemon off"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

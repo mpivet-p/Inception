@@ -47,7 +47,7 @@ services:
       - "443:443"
       - "80:80"
     volumes:
-      - wp_data:/var/www
+      - wp_data:/var/www:ro
     networks:
       - inception
 
