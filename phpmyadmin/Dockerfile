@@ -1,17 +1,24 @@
 FROM debian:buster
 
 RUN apt update\
-    && apt install apache2 wget php libapache2-mod-php php-gd php-mysql -y
+    && apt install wget php-mysql php7.3-fpm -y
 
-RUN wget -P /tmp https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
-RUN mkdir -p /var/www/html/phpmyadmin
+#Downloading and preparing phpmyadmin
+RUN mkdir -p /var/www/phpmyadmin
+WORKDIR /var/www/phpmyadmin
+RUN wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
+RUN tar xvf phpMyAdmin-latest-all-languages.tar.gz --strip-components=1
+RUN cp config.sample.inc.php config.inc.php
+RUN chmod 660 config.inc.php
 
-WORKDIR /tmp
-RUN tar xvf phpMyAdmin-latest-all-languages.tar.gz --strip-components=1 -C /var/www/html/phpmyadmin
-RUN cp /var/www/html/phpmyadmin/config.sample.inc.php /var/www/html/phpmyadmin/config.inc.php
-RUN chmod 660 /var/www/html/phpmyadmin/config.inc.php
-RUN chown -R www-data:www-data /var/www/html/phpmyadmin
+#Config php-fpm
+RUN sed '/^listen =/s/\/run\/php\/php7.3-fpm.sock/9001/' -i /etc/php/7.3/fpm/pool.d/www.conf
 
-EXPOSE 80
+#Creating dirs/files and setting perms
+RUN mkdir /run/php
+RUN touch /var/log/php7.3-fpm.log
+RUN chown -R www-data:www-data /var/www/phpmyadmin /run/php /var/log/php7.3-fpm.log
 
-ENTRYPOINT ["/usr/sbin/apachectl", "-DFOREGROUND", "-k", "start"]
+USER www-data
+
+ENTRYPOINT ["/usr/sbin/php-fpm7.3", "--nodaemonize"]

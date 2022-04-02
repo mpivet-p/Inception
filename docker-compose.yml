@@ -17,14 +17,16 @@ services:
     networks:
       - inception
 
-#  phpmyadmin:
-#    container_name: "pma"
+  phpmyadmin:
+    container_name: "phpmyadmin"
 #    restart: always
-#    env_file: .env
-#    build:
-#      context: phpmyadmin
-#    networks:
-#      - inception
+    env_file: .env
+    build:
+      context: phpmyadmin
+    networks:
+      - inception
+    volumes:
+      - phpma_data:/var/www/phpmyadmin
 
   wordpress:
     container_name: "wordpress"
@@ -33,7 +35,7 @@ services:
     build:
       context: wordpress
     volumes:
-      - wp_data:/var/www
+      - wp_data:/var/www/wordpress
     networks:
       - inception
 
@@ -47,10 +49,13 @@ services:
       - "443:443"
       - "80:80"
     volumes:
-      - wp_data:/var/www:ro
+      - wp_data:/var/www/wordpress:ro
+      - phpma_data:/var/www/phpmyadmin:ro
     networks:
       - inception
-
+    depends_on:
+      - phpmyadmin
+      - wordpress
 
 networks:
   inception:
@@ -59,3 +64,4 @@ networks:
 volumes:
   db_data: {}
   wp_data: {}
+  phpma_data: {}

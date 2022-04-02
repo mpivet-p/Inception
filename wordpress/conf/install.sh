@@ -1,12 +1,12 @@
 #!/bin/bash
 
-export WP_CLI_CACHE_DIR=/var/www/html/.wp-cli/cache
+export WP_CLI_CACHE_DIR=/var/www/wordpress/.wp-cli/cache
 
-if [ ! -f "/var/www/html/wp-config.php" ]; then
+if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
 
     #If wp-config is missing we remove all files before reinstalling
     ls | grep -v install.sh | xargs rm -rf
-    wp core download --path="/var/www/html"
+    wp core download --path="/var/www/wordpress"
     wp config create\
         --dbhost=${DB_HOST}\
         --dbname=${DB_NAME}\
