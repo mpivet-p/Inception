@@ -7,7 +7,9 @@ RUN apt update\
 #Dev
 RUN apt update && apt install vim -y
 
-#RUN mkdir -p /etc/ssl/private
+RUN mkdir -p /etc/ssl/private
+COPY ./conf/mpivet-p.42.fr.cert /etc/ssl/private/mpivet-p.42.fr.cert
+COPY ./conf/mpivet-p.42.fr.key /etc/ssl/private/mpivet-p.42.fr.key
 
 WORKDIR /etc/nginx
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
