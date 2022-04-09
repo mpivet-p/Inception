@@ -26,4 +26,4 @@ RUN chown -R www-data:www-data /var/www/phpmyadmin /run/php /var/log/php7.3-fpm.
 USER www-data
 COPY ./conf/launch.sh .
 
-ENTRYPOINT ["sh", "launch.sh"]
+ENTRYPOINT ["/bin/sh", "launch.sh"]

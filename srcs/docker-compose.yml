@@ -4,10 +4,10 @@ services:
 
   db:
     container_name: "db"
-#    restart: always
+    restart: always
     env_file: .env
     build:
-      context: database
+      context: ./requirements/mariadb
       args:
         DB_PASS: ${DB_PASS}
         DB_USER: ${DB_USER}
@@ -19,10 +19,10 @@ services:
 
   phpmyadmin:
     container_name: "phpmyadmin"
-#    restart: always
+    restart: always
     env_file: .env
     build:
-      context: phpmyadmin
+      context: ./requirements/bonus/phpmyadmin
     networks:
       - inception
     volumes:
@@ -30,10 +30,10 @@ services:
 
   wordpress:
     container_name: "wordpress"
-#    restart: always
+    restart: always
     env_file: .env
     build:
-      context: wordpress
+      context: ./requirements/wordpress
     volumes:
       - wp_data:/var/www/wordpress
     networks:
@@ -41,10 +41,10 @@ services:
 
   nginx:
     container_name: "nginx"
-#    restart: always
+    restart: always
     env_file: .env
     build:
-      context: nginx
+      context: ./requirements/nginx
     ports:
       - "443:443"
       - "80:80"
