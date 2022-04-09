@@ -1,14 +1,18 @@
 FROM debian:buster
 
 RUN apt update\
-    && apt install wget php-mysql php7.3-fpm -y
+    && apt install wget php-mysql php7.3-mysql php7.3-fpm -y
+#    && rm -rf /var/lib/apt/lists/*
+
+#Dev
+RUN apt update && apt install vim mariadb-client -y
 
 #Downloading and preparing phpmyadmin
 RUN mkdir -p /var/www/phpmyadmin
 WORKDIR /var/www/phpmyadmin
 RUN wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
 RUN tar xvf phpMyAdmin-latest-all-languages.tar.gz --strip-components=1
-RUN cp config.sample.inc.php config.inc.php
+COPY ./conf/config.inc.php .
 RUN chmod 660 config.inc.php
 
 #Config php-fpm
@@ -20,5 +24,6 @@ RUN touch /var/log/php7.3-fpm.log
 RUN chown -R www-data:www-data /var/www/phpmyadmin /run/php /var/log/php7.3-fpm.log
 
 USER www-data
+COPY ./conf/launch.sh .
 
-ENTRYPOINT ["/usr/sbin/php-fpm7.3", "--nodaemonize"]
+ENTRYPOINT ["sh", "launch.sh"]
