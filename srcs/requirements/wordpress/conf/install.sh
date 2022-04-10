@@ -19,6 +19,7 @@ if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
         --admin_name=${WP_ADMIN}\
         --admin_password=${WP_PASS}\
         --admin_email=${WP_MAIL}
+    wp user create bob bob@example.com --role=author
 
 fi
 

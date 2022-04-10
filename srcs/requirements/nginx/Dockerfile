@@ -4,9 +4,6 @@ RUN apt update\
     && apt install nginx -y\
     && rm -rf /var/lib/apt/lists/*
 
-#Dev
-RUN apt update && apt install vim -y
-
 RUN mkdir -p /etc/ssl/private
 COPY ./conf/mpivet-p.42.fr.cert /etc/ssl/private/mpivet-p.42.fr.cert
 COPY ./conf/mpivet-p.42.fr.key /etc/ssl/private/mpivet-p.42.fr.key
@@ -25,4 +22,3 @@ RUN rm -rf sites*\
         proxy_params
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
-#ENTRYPOINT ["tail", "-f", "/dev/null"]

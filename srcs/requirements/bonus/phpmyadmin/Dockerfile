@@ -1,11 +1,8 @@
 FROM debian:buster
 
 RUN apt update\
-    && apt install wget php-mysql php7.3-mysql php7.3-fpm -y
-#    && rm -rf /var/lib/apt/lists/*
-
-#Dev
-RUN apt update && apt install vim mariadb-client -y
+    && apt install wget php-mysql php7.3-mysql php7.3-fpm mariadb-client -y\
+    && rm -rf /var/lib/apt/lists/*
 
 #Downloading and preparing phpmyadmin
 RUN mkdir -p /var/www/phpmyadmin

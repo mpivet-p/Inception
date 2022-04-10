@@ -3,12 +3,7 @@ FROM alpine:3.14
 RUN apk -U upgrade\
     && apk --update add mariadb mariadb-client
 
-COPY ./mariadb-server.cnf /etc/mysql/my.cnf
-COPY ./prepare_db.sh /prepare.sh
+COPY ./conf/mariadb-server.cnf /etc/mysql/my.cnf
+COPY ./conf/launch.sh /launch.sh
 
-ARG DB_NAME
-ARG DB_PASS
-ARG DB_USER
-
-RUN /bin/sh /prepare.sh
-CMD ["mysqld", "--user=mysql", "--datadir=/var/lib/mysql"]
+CMD ["/bin/sh", "launch.sh"]
