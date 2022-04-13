@@ -1,8 +1,6 @@
 #!/bin/bash
 
 if [ ! -f /var/lib/mysql/ibdata1 ]; then
-    mkdir -p /var/lib/mysql/
-    chown -R mysql: /var/lib/mysql
     
     mysql_install_db --user=mysql --datadir="/var/lib/mysql"
 
@@ -14,14 +12,9 @@ if [ ! -f /var/lib/mysql/ibdata1 ]; then
             GRANT ALL ON *.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASS}';
             GRANT ALL ON *.* TO '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';
             FLUSH PRIVILEGES;" | mysql -u root --password=""
+    sleep 10
+    pkill mariadbd
 
 fi
 
-sleep 10
-pkill mariadbd
-echo $?
-pkill mysqld
-echo $?
-sleep 1
-#mysqld --user=mysql --datadir=/var/lib/mysql
-tail -f /dev/null
+/usr/bin/mysqld_safe --user=mysql --datadir=/var/lib/mysql

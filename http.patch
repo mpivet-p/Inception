@@ -1,0 +1,10 @@
+--- srcs/docker-compose.yml	2022-04-14 00:17:53.171001511 +0200
++++ docker-alt.yml	2022-04-14 00:15:44.957078842 +0200
+@@ -43,6 +43,7 @@
+       context: ./requirements/nginx
+     ports:
+       - "443:443"
++      - "80:80"
+     volumes:
+       - wp_data:/var/www/wordpress:ro
+       - phpma_data:/var/www/phpmyadmin:ro

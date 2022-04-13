@@ -43,6 +43,7 @@ services:
       context: ./requirements/nginx
     ports:
       - "443:443"
+      - "80:80"
     volumes:
       - wp_data:/var/www/wordpress:ro
       - phpma_data:/var/www/phpmyadmin:ro

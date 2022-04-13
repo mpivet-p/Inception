@@ -1,7 +1,5 @@
 all:
-	mkdir -p $(HOME)/data/wordpress
-	mkdir -p $(HOME)/data/database
-	mkdir -p $(HOME)/data/phpmyadmin
+	mkdir -p $(HOME)/data/wordpress $(HOME)/data/database $(HOME)/data/phpmyadmin
 	docker-compose -f srcs/docker-compose.yml up --build -d
 
 gencert:
@@ -12,3 +10,12 @@ clean:
 	docker rm `docker ps -a -q`
 	docker volume rm `docker volume ls -q`
 
+fclean:
+	sudo rm -rf $HOME/data
+
+bonus-on:
+	patch srcs/docker-compose.yml http.patch
+bonus-off:
+	patch -R srcs/docker-compose.yml http.patch
+
+.PHONY: all gencert clean fclean bonus-on bonus-off
