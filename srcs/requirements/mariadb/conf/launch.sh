@@ -11,7 +11,10 @@ if [ ! -f /var/lib/mysql/ibdata1 ]; then
     echo "USE ${DB_NAME};
             GRANT ALL ON *.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASS}';
             GRANT ALL ON *.* TO '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';
+FLUSH PRIVILEGES;
             FLUSH PRIVILEGES;" | mysql -u root --password=""
+    echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'no-root-allowed';
+	    FLUSH PRIVILEGES;" | mysql -u root --password=""
     sleep 10
     pkill mariadbd
 
