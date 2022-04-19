@@ -23,6 +23,8 @@ services:
       - inception
     volumes:
       - phpma_data:/var/www/phpmyadmin
+    depends_on:
+      - db
 
   wordpress:
     container_name: "wordpress"
@@ -34,6 +36,8 @@ services:
       - wp_data:/var/www/wordpress
     networks:
       - inception
+    depends_on:
+      - db
 
   nginx:
     container_name: "nginx"
