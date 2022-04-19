@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt-get update\
-    && apt-get install wget mariadb-client php-cli php-mysql php-gd php-xml php7.3-fpm sendmail -y\
+    && apt-get install wget mariadb-client php-cli php-mysql php-gd php-xml php7.3-fpm -y\
     && rm -rf /var/lib/apt/lists/*
 
 #Install wp-cli
